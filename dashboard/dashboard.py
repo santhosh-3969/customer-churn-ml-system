@@ -129,13 +129,13 @@ elif page == "🔍 Prediction":
 
         if st.button("Predict Customer"):
 
-            features = [0] * X.shape[1]
+            sample = X.sample(1).copy()
 
-            features[0] = tenure
-            features[1] = monthly
-            features[2] = total
+            sample.iloc[0,0] = tenure
+            sample.iloc[0,1] = monthly
+            sample.iloc[0,2] = total
 
-            prediction = model.predict(np.array([features]))
+            prediction = model.predict(sample)
 
             if prediction[0] == 1:
                 st.error("⚠ Customer likely to churn")
@@ -225,5 +225,6 @@ elif page == "⭐ Feature Importance":
         orientation="h",
         title="Top Features Affecting Customer Churn"
     )
+
 
     st.plotly_chart(fig, use_container_width=True)
